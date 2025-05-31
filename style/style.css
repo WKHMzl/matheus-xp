@@ -1,0 +1,1677 @@
+/* Estilos OTIMIZADOS para o Header Interativo Híbrido */
+body, html {
+    scroll-behavior: smooth;
+}
+
+.interactive-header {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    background-color: #0a0f18; /* Azul noite profundo */
+    color: #e0e0e0;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.header-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(0, 191, 255, 0.07) 0%, transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.05) 0%, transparent 35%);
+    background-size: 250px 250px;
+    animation: pulse-background-subtle 15s infinite alternate ease-in-out;
+    z-index: 0;
+}
+
+@keyframes pulse-background-subtle {
+    0% { opacity: 0.4; transform: translate(0,0) scale(1); }
+    50% { opacity: 0.7; transform: translate(5px, 5px) scale(1.01); }
+    100% { opacity: 0.4; transform: translate(0,0) scale(1); }
+}
+
+.header-content-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+}
+
+#header-loading-sequence {
+    font-family: 'SF Mono', 'Consolas', 'Courier New', Courier, monospace;
+    display: flex; /* Usar flex para alinhar as linhas de texto */
+    flex-direction: column; /* Empilhar as linhas verticalmente */
+    align-items: flex-start; /* Alinhar o início de cada linha de texto à esquerda */
+    margin: 0 auto; /* Centraliza o bloco de texto se ele tiver uma max-width */
+    width: fit-content; /* Faz o container se ajustar à largura do maior texto */
+    max-width: 90%;   /* Previne que fique largo demais em telas grandes */
+}
+
+.loading-text {
+    font-size: clamp(0.9rem, 2vw, 1.1rem); /* Ajuste fino no tamanho da fonte */
+    color: #5eead4; /* Tailwind teal-300, um ciano mais suave e legível */
+    margin-bottom: 10px; /* Espaçamento entre linhas */
+    white-space: pre;    /* Mantém espaços e permite quebras de linha apenas com \n do data-text-content */
+    overflow: hidden;    
+    display: block;      /* Cada linha de texto ocupa sua própria linha no flex container */
+    border-right: .15em solid transparent; 
+    letter-spacing: 0.05em;
+    opacity: 0; 
+    min-height: 1.5em; /* Altura da linha para consistência */
+    line-height: 1.5;  /* Melhora legibilidade entre linhas */
+    text-align: left;  /* Garante alinhamento à esquerda dentro do seu próprio bloco */
+}
+
+.loading-text.typing { 
+    border-right-color: #fb923c; /* Tailwind orange-400 para o cursor */
+    animation: blink-cursor-refined .75s step-end infinite;
+}
+
+@keyframes blink-cursor-refined { /* Renomeado para garantir que é esta versão */
+  from, to { border-right-color: transparent; }
+  50% { border-right-color: #fb923c; } 
+}
+
+.loading-bar-container {
+    width: 100%; /* Relativo ao #header-loading-sequence se ele tiver width: fit-content */
+    max-width: 320px; /* Se o #header-loading-sequence não tiver max-width */
+    margin-left: 0; /* Alinha à esquerda do container flex se este for fit-content */
+    margin-right: auto; /* Se quiser centralizar a barra em relação ao texto, use margin: 20px auto 25px auto; */
+    height: 5px; 
+    background-color: rgba(94, 234, 212, 0.2); /* Fundo da barra com teal mais translúcido */
+    border-radius: 2.5px;
+    margin-top: 20px; /* Espaço após a última linha de texto */
+    margin-bottom: 25px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out 0.2s; /* Leve delay para aparecer */
+}
+
+#loading-bar-fill {
+    width: 0%;
+    height: 100%;
+    background-color: #5eead4; /* Tailwind teal-300 */
+    border-radius: 2.5px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Barra um pouco mais lenta e suave */
+}
+
+/* Conteúdo Principal do Header */
+
+#header-main-content { /* Certifique-se que o container principal do conteúdo do header centraliza seus filhos */
+    /* opacity, transform, pointer-events e transition já definidos para .hidden-initially e .visible-content */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Isso garantirá que .strategic-eye-icon e outros blocos fiquem centralizados */
+}
+
+#header-main-content.hidden-initially {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    pointer-events: none;
+}
+
+#header-main-content.visible-content {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+    transition: opacity 0.7s ease-out 0.2s, transform 0.7s ease-out 0.2s; /* Transição um pouco mais suave */
+}
+
+.strategic-eye-icon {
+    width: 90px;  /* Levemente maior para mais impacto */
+    height: 90px; /* Levemente maior */
+    margin-bottom: 25px; /* Um pouco mais de espaço abaixo do ícone */
+    /* margin-left: auto; e margin-right: auto; não são mais necessários se #header-main-content é flex com align-items: center */
+    
+    display: flex; /* Mantém para centralizar a imagem interna, se ela for menor que o container */
+    align-items: center;
+    justify-content: center;
+    
+    position: relative; /* Necessário para o efeito de scanline */
+    overflow: hidden;   /* Para conter a scanline dentro do ícone */
+    border-radius: 50%; /* Se quiser que o container do ícone seja redondo e corte a scanline nele */
+
+    /* Nova animação aprimorada */
+    animation: pulse-eye-enhanced 5s infinite ease-in-out;
+}
+
+#strategic-eye-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* O filtro drop-shadow será animado para mais dinamismo */
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.5)); /* Sombra base um pouco mais sutil */
+    transition: filter 0.5s ease-in-out; /* Para suavizar mudanças de filtro na animação */
+}
+
+/* Nova animação de pulso aprimorada */
+@keyframes pulse-eye-enhanced {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.8;
+    }
+    25% { /* Adiciona um leve "olhar" para o lado */
+        transform: scale(1.05) rotate(-3deg);
+        opacity: 1;
+    }
+    50% { /* Pico do pulso */
+        transform: scale(1.12) rotate(0deg); /* Mais escala */
+        opacity: 0.9;
+        /* Acessa a imagem diretamente para intensificar o brilho no pico */
+        /* (Isso seria melhor feito com JS para mudar #strategic-eye-image, mas podemos simular com o container) */
+    }
+    75% { /* Adiciona um leve "olhar" para o outro lado */
+        transform: scale(1.05) rotate(3deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.8;
+    }
+}
+
+/* Efeito de "Scanline" passando pelo olho (Opcional, mas adiciona um toque tech) */
+.strategic-eye-icon::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Começa fora da tela à esquerda */
+    width: 100%;
+    height: 2px; 
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 220, 255, 0.1), /* Início suave da linha */
+        rgba(0, 220, 255, 0.8), /* Centro brilhante da linha */
+        rgba(0, 220, 255, 0.1), /* Fim suave da linha */
+        transparent
+    );
+    box-shadow: 0 0 5px rgba(0, 220, 255, 0.5); /* Um leve brilho para a scanline */
+    animation: scanline-effect 6s infinite linear;
+    animation-delay: 1.5s; /* Delay para não começar imediatamente */
+    opacity: 0; /* Começa invisível e a animação controla */
+}
+
+@keyframes scanline-effect {
+    0% {
+        left: -110%; /* Garante que comece bem fora */
+        opacity: 0;
+    }
+    10% { /* Aparece e começa a mover */
+        left: -100%;
+        opacity: 0.7;
+    }
+    40% { /* Passa pelo centro */
+        left: 100%;
+        opacity: 0.7;
+    }
+    45% { /* Some rapidamente após passar */
+        left: 110%;
+        opacity: 0;
+    }
+    100% { /* Permanece invisível pelo resto do ciclo */
+        left: 110%;
+        opacity: 0;
+    }
+}
+
+.header-invitation {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: #cbd5e1; /* Cinza azulado mais claro */
+    margin-bottom: 30px;
+    max-width: 580px;
+    line-height: 1.65;
+}
+
+.cta-header-button {
+    background-image: linear-gradient(to right, #06b6d4, #0e7490); /* Gradiente Ciano (Tailwind cyan-500 to cyan-700) */
+    color: white;
+    padding: 15px 30px; 
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3);
+}
+
+.cta-header-button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.45);
+}
+
+/* Estilos ATUALIZADOS para a Dobra 1 - Meta Funil Interativo (Drag & Drop) */
+
+#dobra1-meta-funil {
+    background: linear-gradient(135deg, #10131b 0%, #1a1f2c 50%, #232b3e 100%);
+    color: #e0e0e0;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border: none;
+    position: relative; 
+    overflow: hidden; 
+}
+
+#dobra1-meta-funil h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem); 
+    margin-bottom: 10px;
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+#dobra1-meta-funil .dobra-subtitulo { /* Usando o seletor mais específico */
+    text-align: center;
+    color: #a0aec0; 
+    margin-bottom: 25px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem); 
+}
+
+.meta-funnel-interactive-container {
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px;
+}
+
+#meta-funnel-canvas {
+    width: 100%;
+    height: 450px; 
+    background-color: rgba(255, 255, 255, 0.03); 
+    background-image: radial-gradient(rgba(255,255,255,0.05) 0.8px, transparent 0.8px);
+    background-size: 15px 15px;
+    border-radius: 8px;
+    position: relative; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden; 
+}
+
+.meta-funnel-stage-card { 
+    background-color: rgba(40, 50, 70, 0.85); 
+    backdrop-filter: blur(5px); 
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #e0e0e0;
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: grab;
+    position: absolute; 
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    user-select: none;
+    width: 160px; 
+    min-height: 80px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.meta-funnel-stage-card.is-dragging-meta { /* Classe para quando está arrastando */
+    cursor: grabbing;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    transform: scale(1.05); 
+    z-index: 1000;
+}
+.meta-funnel-stage-card.active-meta-stage { /* Classe para o card clicado/ativo na simulação */
+    border-color: #00BFFF;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+}
+
+
+.meta-stage-icon { 
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a2e; 
+    /* background-color é definido via JS */
+}
+
+.meta-stage-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+#meta-funnel-details-panel-dobra1 {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    width: 100%; 
+    min-height: 120px;
+    color: #bdc3c7;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: relative; 
+}
+#meta-funnel-details-panel-dobra1.details-panel-hidden {
+    display: none;
+}
+
+.close-panel-button { /* Botão de fechar genérico */
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #bdc3c7;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10; /* Para ficar sobre o conteúdo do painel */
+}
+.close-panel-button:hover {
+    color: #fff;
+}
+
+#meta-stage-title-dobra1 {
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-weight: 600;
+    padding-right: 30px; /* Espaço para o botão de fechar não sobrepor */
+}
+
+#meta-stage-description-dobra1 {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding-right: 10px; /* Pequeno padding se o texto for longo */
+}
+
+.meta-funnel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.meta-control-button {
+    background-color: rgba(0, 122, 255, 0.7); 
+    color: white;
+    border: 1px solid rgba(0, 122, 255, 1);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.meta-control-button:hover {
+    background-color: rgba(0, 122, 255, 1);
+}
+
+
+@media (min-width: 992px) { 
+    .meta-funnel-interactive-container {
+        flex-direction: row; 
+        height: 450px; 
+    }
+    #meta-funnel-canvas {
+        flex-grow: 1; 
+        height: 100%;
+    }
+    #meta-funnel-details-panel-dobra1 {
+        width: 320px; 
+        flex-shrink: 0; 
+        height: 100%; /* Ocupa a altura do container flex */
+        max-height: 450px; /* Limita à altura do canvas */
+        overflow-y: auto;
+        display: block !important; /* Sempre visível em desktop */
+    }
+    #close-meta-details-dobra1 { /* Esconder o botão de fechar em desktop */
+        display: none;
+    }
+}
+
+#meta-connector-svg path { /* Estilo para os paths SVG, se usar path */
+    stroke: rgba(0, 122, 255, 0.6); 
+    stroke-width: 2.5;
+    fill: none;
+}
+#meta-connector-svg .arrow-head {
+    fill: rgba(0, 122, 255, 0.6);
+}
+
+/* Estilos ATUALIZADOS para a Dobra 2 - Perfil Forense */
+
+#dobra2-forensic-profile {
+    background-color: #111827; 
+    color: #9ca3af; 
+    padding: 40px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 50px rgba(0, 191, 255, 0.15);
+    border: 1px solid #374151; 
+    position: relative;
+    /* overflow: hidden; */ /* Removido para permitir que o conteúdo determine a altura da seção */
+}
+
+#dobra2-forensic-profile h2 {
+    color: #e5e7eb; 
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    margin-bottom: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding-bottom: 0;
+}
+
+#dobra2-forensic-profile .dobra-subtitulo {
+    text-align: center;
+    color: #9ca3af; /* Ajustado para um cinza padrão da seção */
+    margin-bottom: 40px;
+    font-weight: 500;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.6;
+}
+
+.forensic-main-layout {
+    display: flex;
+    flex-direction: column; 
+    gap: 30px;
+}
+
+.forensic-subject-display {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: rgba(31, 41, 55, 0.5);
+    border-radius: 10px;
+    border: 1px solid #4b5563;
+}
+
+.subject-photo-container {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    background-color: #1f2937;
+    border: 2px dashed #4b5563;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.subject-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 3px solid #00BFFF;
+    object-fit: cover;
+    max-height: 350px;
+}
+
+.subject-photo-caption {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.forensic-clues-and-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 0; /* Para ajudar em contextos flex complexos */
+}
+
+#forensic-board { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Ajustado para melhor encaixe */
+    gap: 15px; 
+    width: 100%;
+}
+
+.clue-card { 
+    background-color: #1f2937; 
+    border: 1px solid #4b5563; 
+    padding: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 140px; /* Altura mínima para consistência visual */
+    justify-content: center; /* Centraliza o conteúdo verticalmente */
+}
+.clue-card:before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(transparent 50%, rgba(0, 191, 255, 0.03) 50%);
+    background-size: 100% 3px; 
+    opacity: 0.2;
+    pointer-events: none;
+}
+.clue-card:hover, .clue-card.active-clue { /* .active-clue para JS */
+    transform: translateY(-5px) scale(1.02); /* Ajuste sutil na escala */
+    box-shadow: 0 0 25px rgba(0, 191, 255, 0.4); 
+    border-color: #00BFFF; 
+}
+
+.clue-icon-placeholder { 
+    font-size: 1.5rem; /* Aumentado para ícones textuais curtos */
+    width: 45px; height: 45px; /* Levemente aumentado */
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px; /* Mais espaço */
+    background-color: rgba(0, 191, 255, 0.15);
+    color: #00BFFF;
+    border: 1px solid #00BFFF;
+    font-weight: bold;
+}
+.clue-tag { 
+    font-size: 0.7rem; /* Levemente aumentado */
+    color: #86909c; /* Cinza mais suave */
+    margin-bottom: 8px;
+}
+.clue-title { 
+    font-size: 0.95rem; /* Ajustado para caber melhor */
+    color: #e5e7eb;
+    font-weight: 600;
+    line-height: 1.3; /* Para nomes de título mais longos */
+}
+
+#forensic-details-panel-dobra2 { 
+    background-color: #1f2937; 
+    border: 1px solid #00BFFF; 
+    padding: 20px 25px; /* Ajustado padding */
+    border-radius: 8px;
+    width: 100%; 
+    color: #d1d5db;
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.15);
+    position: relative; 
+}
+#forensic-details-panel-dobra2.details-panel-hidden { display: none; }
+
+/* Botão de fechar usa .close-panel-button do CSS geral */
+#forensic-details-panel-dobra2 .close-panel-button { color: #00BFFF; } 
+#forensic-details-panel-dobra2 .close-panel-button:hover { color: #fff; }
+
+#forensic-clue-title-dobra2 { 
+    font-size: 1.3rem; /* Levemente reduzido para caber melhor */
+    color: #ffffff;
+    margin-bottom: 18px;
+    font-weight: 700;
+    padding-right: 35px; /* Espaço para o botão de fechar */
+    line-height: 1.4;
+}
+#forensic-clue-analysis-dobra2 .data-section-title {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+#forensic-clue-analysis-dobra2 .data-section-title strong { 
+    color: #00BFFF;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem; /* Destaque maior */
+}
+#forensic-clue-analysis-dobra2 span { 
+    color: #cbd5e1; /* Texto um pouco mais claro */
+}
+
+.profile-conclusion { 
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    color: #e0e0e0;
+    line-height: 1.8;
+    margin-top: 40px;
+    padding: 25px;
+    background-color: rgba(0,0,0,0.25); /* Levemente mais escuro */
+    border-radius: 8px;
+    border-top: 1px solid #374151; /* Borda um pouco mais escura */
+}
+
+/* Layout para telas maiores (Desktop) */
+@media (min-width: 992px) {
+    .forensic-main-layout {
+        flex-direction: row; 
+        align-items: flex-start; 
+    }
+    .forensic-subject-display {
+        width: 35%; 
+        max-width: 350px; 
+        position: sticky; 
+        top: 20px; 
+        margin-right: 30px; 
+    }
+    .subject-photo-container{
+        max-width: none;
+    }
+    .forensic-clues-and-details {
+        width: 65%; 
+    }
+    #forensic-board {
+        margin-bottom: 25px; /* Mais espaço para o painel de detalhes */
+    }
+    #forensic-details-panel-dobra2 {
+        display: block !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    #forensic-details-panel-dobra2 .close-panel-button {
+        display: none;
+    }
+}
+
+/* Estilos para a Dobra 3 - Mapa Estratégico Interativo */
+#dobra3-expansao-easychatia {
+    background: #1a202c; 
+    color: #e2e8f0; 
+    padding: 40px 20px 60px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid #2d3748;
+    position: relative; 
+    overflow: hidden; 
+}
+
+#dobra3-expansao-easychatia h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+#dobra3-expansao-easychatia .dobra-subtitulo {
+    text-align: center;
+    color: #a0aec0; 
+    margin-bottom: 50px; 
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.strategic-map-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px; 
+    min-height: 450px; 
+    margin: 0 auto;
+    background-color: rgba(10, 15, 24, 0.5); 
+    border: 1px solid #374151; 
+    border-radius: 10px;
+    padding: 20px;
+    background-image: 
+        linear-gradient(rgba(0, 191, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 191, 255, 0.07) 1px, transparent 1px);
+    background-size: 30px 30px;
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: space-around; 
+    align-items: center; 
+    gap: 20px; 
+}
+
+.strategy-node {
+    background-color: rgba(45, 55, 72, 0.8); 
+    backdrop-filter: blur(5px);
+    border: 1px solid #4a5568;
+    border-radius: 8px;
+    padding: 15px 20px;
+    width: calc(50% - 20px); 
+    min-width: 180px; 
+    max-width: 220px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; 
+}
+
+.strategy-node:hover, .strategy-node.active-node {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0 25px rgba(0, 191, 255, 0.5);
+    border-color: #00BFFF; 
+}
+
+.strategy-node-icon {
+    font-size: 2.5rem; 
+    margin-bottom: 5px;
+    color: #00BFFF;
+}
+
+.strategy-node-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.strategy-node-status {
+    font-size: 0.75rem;
+    padding: 4px 10px; /* Ajustado para melhor aparência de pílula */
+    border-radius: 12px; 
+    font-weight: 600; /* Aumentado o peso */
+    /* A cor do texto e do fundo será definida pelas classes de status específicas abaixo */
+}
+
+/* Cores de status para os NÓS NO MAPA */
+.strategy-node .status-collected { background-color: #34d399; color: #065f46; } /* Verde esmeralda com texto verde escuro */
+.strategy-node .status-analysis { background-color: #facc15; color: #78350f; } /* Amarelo com texto marrom escuro */
+.strategy-node .status-prototyping { background-color: #fb923c; color: #7c2d12; } /* Laranja com texto marrom escuro */
+.strategy-node .status-applicable { background-color: #60a5fa; color: #1e40af; } /* Azul com texto azul escuro */
+.strategy-node .status-ideation { background-color: #94a3b8; color: #1e293b; } /* Cinza ardósia com texto ardósia escuro */
+
+
+/* Painel de Detalhes */
+#strategy-details-panel {
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); 
+    width: 90%;
+    max-width: 650px;
+    background-color: #2d3748; 
+    border: 1px solid #00BFFF;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    padding: 0; 
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow-y: auto; 
+    max-height: 80vh;
+}
+
+#strategy-details-panel:not(.details-panel-hidden) {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#strategy-details-panel .close-panel-button { 
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: #a0aec0;
+}
+#strategy-details-panel .close-panel-button:hover { color: #00BFFF; }
+
+#strategy-details-panel .panel-content-wrapper {
+    padding: 25px 30px 30px; 
+}
+
+#strategy-detail-title {
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-weight: 700;
+    border-bottom: 1px solid #4a5568;
+    padding-bottom: 15px;
+    margin-top: 0;
+}
+
+.strategy-detail-status-text { /* O texto "Status: " */
+    font-size: 0.9rem;
+    color: #a0aec0;
+    margin-bottom: 20px;
+    font-style: italic;
+    display: flex; /* Para alinhar "Status:" com a pílula do status */
+    align-items: center;
+}
+
+/* A PÍLULA DE STATUS DENTRO DO PAINEL DE DETALHES */
+.strategy-detail-status-text #strategy-detail-status {
+    font-weight: bold;
+    padding: 4px 12px; /* Padding para a pílula */
+    border-radius: 15px;  /* Raio para a pílula */
+    font-size: 0.8em;   /* Fonte um pouco menor para o texto do status */
+    margin-left: 8px;   /* Espaço depois de "Status:" */
+    line-height: 1.4;   /* Para melhor alinhamento vertical do texto na pílula */
+    text-align: center;
+    font-style: normal; /* Remove itálico do span */
+    /* As classes abaixo definirão background-color e color */
+}
+
+/* Cores de status para a PÍLULA NO PAINEL DE DETALHES (melhor contraste) */
+#strategy-details-panel .status-collected { background-color: #34d399; color: #064e3b; } /* Verde esmeralda / texto verde bem escuro */
+#strategy-details-panel .status-analysis { background-color: #facc15; color: #713f12; } /* Amarelo / texto marrom escuro */
+#strategy-details-panel .status-prototyping { background-color: #fb923c; color: #7c2d12; } /* Laranja / texto marrom escuro */
+#strategy-details-panel .status-applicable { background-color: #60a5fa; color: #ffffff; } /* Azul / texto branco */
+#strategy-details-panel .status-ideation { background-color: #94a3b8; color: #1e293b; } /* Cinza ardósia / texto ardósia escuro */
+
+
+.strategy-detail-section {
+    margin-bottom: 20px;
+}
+.strategy-detail-section h5 {
+    font-size: 1.1rem;
+    color: #00BFFF; 
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.strategy-detail-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+.strategy-detail-section ul li {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+.strategy-detail-section ul li:before {
+    content: "›"; 
+    color: #00BFFF;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.strategy-detail-coconstruction {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px dashed #4a5568;
+    text-align: center;
+    font-style: italic;
+}
+.strategy-detail-coconstruction strong {
+    color: #00BFFF;
+}
+
+
+/* Responsividade para os nós e mapa */
+@media (min-width: 768px) {
+    .strategy-node {
+        width: calc(33.33% - 20px); 
+        max-width: 200px; 
+    }
+}
+
+@media (min-width: 992px) {
+    .strategic-map-container {
+        min-height: 500px; 
+        padding: 40px;
+    }
+}
+
+/* Para o .close-panel-button global se ainda não definido */
+.close-panel-button { 
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #bdc3c7;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    z-index: 10; 
+}
+.close-panel-button:hover { color: #fff; }
+
+/* Classe para ocultar painéis (genérica) */
+.details-panel-hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translate(-50%, -50%) scale(0.9) !important; 
+}
+
+/* Estilos para a Dobra 4 - Arquitetura da Performance */
+#dobra4-arquitetura-performance {
+    background: #161a22; 
+    color: #adb5bd; 
+    padding: 40px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid #343a40; 
+}
+
+#dobra4-arquitetura-performance h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+#dobra4-arquitetura-performance .dobra-subtitulo {
+    color: #86909c; 
+    margin-bottom: 40px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.department-showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajustado minmax */
+    gap: 25px; /* Aumentado gap */
+    margin-bottom: 40px;
+}
+
+.department-module {
+    background-color: #212529; 
+    border: 1px solid #495057; 
+    padding: 20px 25px; /* Ajustado padding */
+    border-radius: 10px; /* Aumentado radius */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    cursor: pointer; /* Indica que é clicável */
+    min-height: 190px; /* Altura mínima para consistência visual inicial */
+}
+
+.department-module:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 191, 255, 0.25); 
+    border-color: #00BFFF; 
+}
+.department-module.expanded { /* Classe para quando o card está expandido */
+    border-color: #FFD700; /* Dourado para destacar o card expandido */
+    box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+}
+
+
+.module-icon-placeholder {
+    font-size: 2.2rem; 
+    width: 65px; /* Aumentado */
+    height: 65px; /* Aumentado */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px auto; /* Aumentado margin-bottom */
+    background-color: rgba(0, 191, 255, 0.1); 
+    color: #00BFFF; 
+    border: 2px solid rgba(0, 191, 255, 0.3);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+.department-module:hover .module-icon-placeholder {
+    transform: scale(1.1);
+}
+
+/* Destaque para ícones de setores chave (data-sector) */
+.department-module[data-sector] .module-icon-placeholder {
+    background-color: rgba(255, 215, 0, 0.15); /* Dourado translúcido */
+    color: #FFD700; /* Dourado */
+    border-color: rgba(255, 215, 0, 0.4);
+}
+.department-module[data-sector]:hover .module-icon-placeholder {
+    background-color: rgba(255, 215, 0, 0.25);
+    color: #fff; /* Texto branco no hover do ícone destacado */
+}
+
+
+.module-title {
+    font-size: 1.2rem; /* Aumentado */
+    font-weight: 600;
+    color: #e9ecef; 
+    margin-bottom: 10px;
+}
+
+.module-description {
+    font-size: 0.88rem; /* Levemente aumentado */
+    color: #adb5bd; 
+    line-height: 1.55;
+    flex-grow: 1; 
+    margin-bottom: 15px; /* Espaço antes dos detalhes, se houver */
+}
+
+/* Detalhes de Sinergia (inicialmente ocultos) */
+.synergy-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out 0.1s, margin-top 0.4s ease;
+    opacity: 0;
+    text-align: left; /* Alinha o texto dos detalhes à esquerda */
+    font-size: 0.85rem;
+    color: #ced4da;
+    border-top: 1px solid #495057;
+    padding-top: 0; /* Padding será aplicado quando visível */
+    margin-top: 0;
+}
+
+.department-module.expanded .synergy-details {
+    max-height: 300px; /* Altura suficiente para o conteúdo. Ajuste se necessário. */
+    opacity: 1;
+    padding-top: 15px;
+    margin-top: 15px; /* Espaço quando visível */
+}
+
+.synergy-details p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+.synergy-details p strong {
+    color: #FFD700; /* Dourado para destacar os títulos internos */
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.9rem;
+}
+
+.architecture-conclusion {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #dee2e6; 
+    line-height: 1.7;
+    margin-top: 30px;
+    padding: 25px;
+    background-color: rgba(0, 191, 255, 0.05); 
+    border-radius: 8px;
+    border: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+    #dobra4-arquitetura-performance h2 {
+        font-size: 1.7rem;
+    }
+    .department-showcase-grid {
+        grid-template-columns: 1fr; 
+    }
+    .architecture-conclusion {
+        font-size: 1rem;
+    }
+    .department-module {
+        min-height: auto; /* Permite que os cards tenham altura natural no mobile */
+        padding: 20px;
+    }
+}
+
+/* Estilos para a Dobra 5 - Meu Arsenal Estratégico / Fluxograma de Competências */
+#dobra5-meu-arsenal {
+    background: linear-gradient(to bottom, #1e293b, #0f172a); 
+    color: #cbd5e1; 
+    padding: 40px 0px; /* Ajustado padding para permitir scroll horizontal interno se necessário */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid #334155;
+    overflow: hidden; /* Para conter o scroll horizontal do container se ele for mais largo */
+}
+
+#dobra5-meu-arsenal h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 10px;
+    padding: 0 20px; /* Padding para o título não colar nas bordas */
+}
+
+#dobra5-meu-arsenal .dobra-subtitulo {
+    color: #94a3b8; 
+    margin-bottom: 40px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 1.6;
+    padding: 0 20px; /* Padding para o subtítulo */
+}
+
+.skills-flow-container {
+    display: flex;
+    align-items: stretch; /* Faz os cards terem a mesma altura na linha */
+    gap: 15px; 
+    padding: 20px; /* Padding interno para o container de scroll */
+    overflow-x: auto; /* Permite scroll horizontal em desktop */
+    -webkit-overflow-scrolling: touch; /* Scroll suave em iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #3b82f6 #1e293b; /* Cor do scroll (thumb track) Firefox */
+}
+/* Estilo para scrollbar em WebKit (Chrome, Safari) */
+.skills-flow-container::-webkit-scrollbar {
+    height: 8px;
+}
+.skills-flow-container::-webkit-scrollbar-track {
+    background: #1e293b;
+    border-radius: 4px;
+}
+.skills-flow-container::-webkit-scrollbar-thumb {
+    background-color: #3b82f6;
+    border-radius: 4px;
+    border: 2px solid #1e293b;
+}
+
+.skill-node {
+    background-color: #334155; 
+    border: 1px solid #475569;
+    padding: 20px;
+    border-radius: 10px; /* Mais arredondado */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 280px; /* Largura fixa para cada nó no fluxo horizontal, ajuste conforme necessário */
+    min-height: 220px; /* Altura mínima para consistência */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinha conteúdo ao topo */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+    position: relative; /* Para o .skill-proof */
+}
+
+.skill-node:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); /* Sombra azulada ao passar */
+}
+
+.skill-node-icon-placeholder {
+    font-size: 2.5rem; /* Aumentado */
+    width: 70px; /* Aumentado */
+    height: 70px; /* Aumentado */
+    border-radius: 12px; /* Levemente quadrado arredondado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    background-image: linear-gradient(135deg, #3b82f6, #2563eb); 
+    color: #ffffff;
+    border: none; /* Removida borda anterior */
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+}
+
+.skill-node-title {
+    font-size: 1.2rem; /* Aumentado */
+    font-weight: 600;
+    color: #e2e8f0; 
+    margin-bottom: 8px;
+}
+
+.skill-node-desc {
+    font-size: 0.88rem;
+    color: #94a3b8; 
+    line-height: 1.5;
+    flex-grow: 1; /* Para empurrar .skill-proof para baixo se necessário */
+    margin-bottom: 10px;
+}
+
+.skill-proof {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: #60a5fa; /* Azul claro para o texto de prova */
+    margin-top: auto; /* Empurra para o final do card */
+    padding: 8px;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    width: calc(100% + 40px); /* Para ocupar a largura total do padding do pai */
+    margin-left: -20px; /* Compensa o padding do pai */
+    margin-right: -20px; /* Compensa o padding do pai */
+    margin-bottom: -20px; /* Compensa o padding do pai */
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 1px solid #475569;
+    opacity: 0;
+    max-height: 0;
+    transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+}
+.skill-node.showing-proof .skill-proof {
+    opacity: 1;
+    max-height: 100px; /* Altura suficiente para o texto de prova */
+    padding: 8px 20px;
+}
+
+
+.flow-arrow {
+    display: flex; /* Para centralizar o span */
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #3b82f6; 
+    align-self: center; /* Alinha a seta verticalmente com os cards */
+    padding: 0 10px;
+    min-width: 50px; /* Garante espaço para a seta */
+}
+.flow-arrow span {
+    display: block;
+    transition: transform 0.2s ease-out;
+}
+.skills-flow-container:hover .flow-arrow span { /* Animação sutil na seta ao passar mouse no container */
+    transform: translateX(3px);
+}
+
+
+.skills-flow-conclusion {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #e2e8f0;
+    line-height: 1.7;
+    margin-top: 40px;
+    padding: 20px 40px; /* Aumentado padding horizontal */
+    background-color: rgba(71, 85, 105, 0.2); 
+    border-radius: 8px;
+    border-top: 1px solid #475569;
+}
+
+/* Layout para mobile */
+@media (max-width: 767px) {
+    #dobra5-meu-arsenal {
+        padding: 40px 0px; /* Mantém padding vertical */
+    }
+    .skills-flow-container {
+        flex-direction: column; /* Empilha verticalmente */
+        overflow-x: hidden; /* Remove scroll horizontal */
+        padding: 0 20px; /* Padding lateral para o conteúdo */
+        align-items: center; /* Centraliza os cards */
+    }
+    .skill-node {
+        flex: 1 1 100%; /* Ocupa toda a largura */
+        max-width: 100%; /* Garante que não exceda o container */
+        margin-bottom: 15px; /* Espaço entre cards empilhados */
+        min-height: auto; /* Altura natural no mobile */
+    }
+    .flow-arrow {
+        transform: rotate(90deg);
+        padding: 10px 0;
+        min-width: auto; /* Remove min-width */
+        font-size: 2rem; /* Seta um pouco menor */
+    }
+    /* Esconder a última seta no mobile */
+    .skills-flow-container > .skill-node:last-of-type + .flow-arrow,
+    .skills-flow-container > .flow-arrow:last-child { /* Caso a última seta seja realmente o último elemento */
+        display: none;
+    }
+}
+
+/* Estilos para a Dobra 6 - Narrativa Logística com EasyChatia */
+#dobra6-narrativa-logistica {
+    background: #2d3748; /* Tailwind gray-800, um tom mais neutro para a narrativa */
+    color: #a0aec0; /* Tailwind gray-400, para o texto base */
+    padding: 40px 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    border: 1px solid #4a5568; /* Tailwind gray-600 */
+}
+
+#dobra6-narrativa-logistica h2 {
+    color: #e2e8f0; /* Tailwind coolGray-200 */
+    text-align: center;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+    margin-bottom: 10px;
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+#dobra6-narrativa-logistica .dobra-subtitulo {
+    color: #718096; /* Tailwind gray-500 */
+    margin-bottom: 40px;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.narrative-wrapper {
+    max-width: 800px; /* Limita a largura do conteúdo da narrativa */
+    margin: 0 auto;
+}
+
+/* Estilos para a Dobra 6 - Narrativa Logística com EasyChatia */
+/* (Mantenha seus estilos existentes para #dobra6-narrativa-logistica, .narrative-wrapper, etc.) */
+
+.narrative-block {
+    background-color: #4a5568; 
+    padding: 25px 30px; /* Ajustado padding */
+    border-radius: 8px;
+    margin-bottom: 20px; 
+    border-left: 5px solid #63b3ed; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25); /* Sombra mais pronunciada */
+}
+
+.narrative-icon {
+    font-size: 2.8rem; /* Ajuste o tamanho do emoji conforme necessário */
+    width: 70px; /* Ajuste para caber o emoji */
+    height: 70px; /* Ajuste para caber o emoji */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto; /* Mais espaço abaixo do ícone */
+    background-color: rgba(99, 179, 237, 0.15); 
+    color: #63b3ed; 
+    /* Removido font-weight: bold; pois emojis não são afetados */
+    /* line-height: 1; já garantido pelo flex */
+}
+
+.narrative-stage-title {
+    font-size: 1.4rem; /* Um pouco maior */
+    font-weight: 700; /* Mais peso */
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.narrative-text {
+    font-size: 1.05rem; /* Levemente maior para leitura */
+    color: #e2e8f0; /* Texto mais claro para melhor contraste */
+    line-height: 1.75;
+    margin-bottom: 10px;
+}
+.narrative-text em { /* Destaque para frases de impacto */
+    font-style: italic;
+    color: #90cdf4; 
+    font-weight: 600; /* Opcional: dar mais peso ao itálico */
+}
+.narrative-text strong { /* Destaque para gatilhos/palavras-chave */
+    color: #f6e05e; /* Amarelo/Dourado para palavras de impacto */
+    font-weight: 700;
+}
+
+
+.solution-points {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px; /* Mais espaço antes dos pontos */
+}
+
+.solution-points li {
+    font-size: 1rem; /* Tamanho dos pontos da solução */
+    color: #e2e8f0;
+    margin-bottom: 10px; /* Mais espaço entre os LIs */
+    padding-left: 25px; /* Mais espaço para o marcador */
+    position: relative;
+    line-height: 1.6;
+}
+
+.solution-points li:before {
+    content: "✔"; 
+    color: #68d391; 
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    font-size: 1.2rem; /* Marcador um pouco maior */
+    top: 2px; /* Ajuste fino vertical */
+}
+.solution-points li strong { /* Destaque dentro dos pontos da solução */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.narrative-connector-arrow {
+    text-align: center;
+    font-size: 2.8rem; /* Seta maior */
+    color: #63b3ed; 
+    margin: -10px 0 -10px 0; /* Ajustado para melhor visual com os blocos */
+    line-height: 1;
+    opacity: 0.7; /* Seta um pouco mais sutil */
+}
+
+.narrative-final-thought {
+    text-align: center;
+    font-size: 1.15rem; /* Pensamento final um pouco maior */
+    color: #e2e8f0;
+    line-height: 1.8;
+    margin-top: 40px;
+    padding: 30px 25px; /* Mais padding */
+    background-color: rgba(99, 179, 237, 0.12); 
+    border-radius: 8px;
+    border-top: 2px solid #63b3ed;
+    font-style: italic;
+}
+.narrative-final-thought strong { /* Destaque no pensamento final */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Responsividade (adicione se necessário ajustes específicos para esta dobra) */
+@media (max-width: 640px) {
+    #dobra6-narrativa-logistica h2 {
+        font-size: 1.7rem;
+    }
+    .narrative-stage-title {
+        font-size: 1.25rem;
+    }
+    .narrative-text, .solution-points li {
+        font-size: 0.95rem;
+    }
+    .narrative-final-thought {
+        font-size: 1.05rem;
+    }
+    .narrative-block {
+        padding: 20px;
+    }
+}
+
+/* CSS para animação de entrada opcional da Dobra 6 */
+#dobra6-narrativa-logistica .narrative-block,
+#dobra6-narrativa-logistica .narrative-connector-arrow {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+#dobra6-narrativa-logistica .narrative-element-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilos para a Dobra 7 - O Convite (Sequência de Alinhamento) - Seletores Atualizados */
+#dobra7-convite-final { /* ID da Seção Atualizado */
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 50%, #0b132b 100%); 
+    color: #e0e0e0; 
+    padding: 60px 20px; 
+    border-radius: 12px;
+    text-align: center;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    overflow: hidden; 
+}
+
+#dobra7-convite-final h2 {
+    color: #ffffff;
+    font-size: clamp(2rem, 5vw, 2.8rem); 
+    margin-bottom: 15px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+#dobra7-convite-final .dobra-subtitulo {
+    color: #bdc3c7; 
+    margin-bottom: 40px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+.cta-container-d7 { /* Classe do Container Atualizada */
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.03); 
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cta-icon-main-d7 { /* Classe do Ícone Atualizada */
+    font-size: 4rem; 
+    color: #00BFFF; 
+    margin-bottom: 25px;
+    animation: floatRocket 3s ease-in-out infinite; 
+}
+
+@keyframes floatRocket { /* Animação do Foguete (mantida) */
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.cta-main-text-d7 { /* Classe do Texto Principal Atualizada */
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+#cta-status-sequence-d7 { /* ID da Sequência de Status Atualizado */
+    font-family: 'SF Mono', 'Consolas', 'Courier New', monospace;
+    margin: 25px auto;
+    min-height: 70px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.status-line-d7 { /* Classe das Linhas de Status Atualizada */
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    color: #5eead4; 
+    margin: 3px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    opacity: 0; 
+    transform: translateY(10px);
+    /* JS controla animação de digitação e visibilidade final */
+}
+
+.cta-question-text-d7 { /* Classe do Texto da Pergunta Atualizada */
+    font-size: 1.1rem;
+    color: #bdc3c7;
+    margin-bottom: 30px;
+    font-style: italic;
+    opacity: 0; 
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s; 
+}
+
+.cta-question-text-d7.visible-d7 { /* Classe de Visibilidade Atualizada */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.final-cta-btn-d7 { /* Classe do Botão Atualizada */
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to right, #00BFFF, #1E90FF); 
+    color: white;
+    padding: 18px 35px; 
+    text-decoration: none;
+    border-radius: 50px; 
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
+    box-shadow: 0 5px 15px rgba(0, 191, 255, 0.3);
+    /* Opacidade e transform são controlados por .cta-btn-hidden-d7 e .cta-btn-visible-d7 */
+}
+
+.final-cta-btn-d7.cta-btn-hidden-d7 { /* Classe de Ocultação Inicial Atualizada */
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+    pointer-events: none;
+}
+.final-cta-btn-d7.cta-btn-visible-d7 { /* Classe de Visibilidade Final Atualizada */
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+    transition-delay: 0.5s; 
+}
+
+.final-cta-btn-d7:hover { /* Estilo Hover Mantido */
+    transform: translateY(-3px) scale(1.03); 
+    box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+}
+.final-cta-btn-d7.cta-btn-visible-d7:hover { 
+     transform: translateY(-3px) scale(1.03); /* Garante que hover funcione após visibilidade */
+}
+
+.cta-btn-icon-d7 { /* Classe do Ícone do Botão Atualizada */
+    margin-right: 12px; 
+    font-size: 1.4rem; 
+    line-height: 1; 
+}
+
+.cta-note-text-d7 { /* Classe da Nota Atualizada */
+    font-size: 0.85rem;
+    color: #9ca3af; 
+    margin-top: 20px;
+    opacity: 0; 
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-out 0.7s, transform 0.5s ease-out 0.7s; 
+}
+.cta-note-text-d7.visible-d7 { /* Classe de Visibilidade Atualizada */
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsividade (mantida) */
+@media (max-width: 640px) {
+    #dobra7-convite-final h2 { font-size: 1.8rem; }
+    .cta-main-text-d7 { font-size: 1.1rem; }
+    .final-cta-btn-d7 { padding: 15px 25px; font-size: 1rem; }
+    #cta-status-sequence-d7 { min-height: 60px; }
+    .status-line-d7 { font-size: 0.8rem; }
+}
+
+/* Estilos para o Footer (#page-footer) */
+#page-footer {
+    background-color: #0a0f18; /* Um azul bem escuro, similar ao header ou outra base escura da página */
+    color: #718096; /* Cinza azulado suave para o texto secundário */
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid #2d3748; /* Linha sutil de separação */
+    font-size: 0.9rem;
+}
+
+.footer-container {
+    max-width: 800px; /* Para alinhar com o conteúdo principal */
+    margin: 0 auto;
+}
+
+.footer-text {
+    margin: 0 0 8px 0;
+    color: #a0aec0; /* Cor um pouco mais clara para o texto principal do rodapé */
+    font-weight: 500;
+}
+
+.footer-subtext {
+    margin: 0;
+    font-size: 0.8rem;
+    font-style: italic;
+    opacity: 0.7; /* Para tornar o subtexto um pouco mais sutil */
+}
+
+/* Opcional: se quiser um link no seu nome ou algo assim */
+/*
+#page-footer a {
+    color: #00BFFF;
+    text-decoration: none;
+}
+
+#page-footer a:hover {
+    text-decoration: underline;
+}
+*/
